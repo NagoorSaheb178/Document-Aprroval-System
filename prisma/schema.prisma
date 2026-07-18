@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  AUTHOR
+  REVIEWER
+  ADMIN
+  VIEWER
+}
+
+enum DocumentStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+
+  documents Document[]  @relation("AuthorDocuments")
+  auditLogs AuditLog[]  @relation("ActorAuditLogs")
+}
+
+model Document {
+  id        String         @id @default(cuid())
+  title     String
+  body      String
+  status    DocumentStatus @default(DRAFT)
+  authorId  String
+  version   Int            @default(1)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  author    User       @relation("AuthorDocuments", fields: [authorId], references: [id])
+  auditLogs AuditLog[] @relation("DocumentAuditLogs")
+}
+
+model AuditLog {
+  id             String          @id @default(cuid())
+  documentId     String
+  actorId        String
+  action         String
+  previousStatus DocumentStatus?
+  newStatus      DocumentStatus?
+  comment        String?
+  metadata       Json?
+  createdAt      DateTime        @default(now())
+
+  document Document @relation("DocumentAuditLogs", fields: [documentId], references: [id])
+  actor    User     @relation("ActorAuditLogs", fields: [actorId], references: [id])
+}
