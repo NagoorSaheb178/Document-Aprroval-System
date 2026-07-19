@@ -92,30 +92,71 @@ export function WorkflowActions({ doc, user, canSubmit, canApprove, canReject, c
           </button>
           
           <Dialog open={rejectOpen} onOpenChange={setRejectOpen}>
-            <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden bg-white rounded-xl shadow-xl border border-gray-200 gap-0">
-              <DialogHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
+            <DialogContent 
+              className="sm:max-w-[480px] p-0 overflow-hidden rounded-xl shadow-2xl gap-0 !ring-0 !border-0"
+              style={{ backgroundColor: '#ffffff' }}
+            >
+              <DialogHeader 
+                style={{ padding: '24px', borderBottom: '1px solid var(--gray-200)', backgroundColor: '#ffffff' }}
+              >
                 <DialogTitle className="text-lg font-bold text-gray-900 tracking-tight">Reject Document</DialogTitle>
                 <p className="text-sm text-gray-500 mt-1">Please provide a reason for rejecting this document. This will be visible to the author.</p>
               </DialogHeader>
-              <div className="p-6">
+              <div style={{ padding: '24px', backgroundColor: '#ffffff' }}>
                 <textarea 
                   placeholder="e.g. The section on leave carry-forward needs clarification..." 
                   value={rejectReason}
                   onChange={(e) => setRejectReason(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-50 transition-all outline-none resize-y text-sm"
+                  style={{
+                    width: '100%',
+                    padding: '16px',
+                    backgroundColor: 'var(--gray-50)',
+                    border: '1px solid var(--gray-300)',
+                    borderRadius: '8px',
+                    color: 'var(--gray-900)',
+                    fontSize: '14px',
+                    lineHeight: '1.5',
+                    outline: 'none',
+                    resize: 'vertical',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#ef4444';
+                    e.target.style.backgroundColor = '#ffffff';
+                    e.target.style.boxShadow = '0 0 0 4px #fef2f2';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'var(--gray-300)';
+                    e.target.style.backgroundColor = 'var(--gray-50)';
+                    e.target.style.boxShadow = 'none';
+                  }}
                   required
                 />
               </div>
-              <DialogFooter className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-row justify-end gap-3 sm:justify-end">
+              <DialogFooter 
+                className="!m-0"
+                style={{ 
+                  padding: '16px 24px', 
+                  borderTop: '1px solid var(--gray-200)', 
+                  backgroundColor: 'var(--gray-50)', 
+                  display: 'flex', 
+                  justifyContent: 'flex-end', 
+                  gap: '12px',
+                  borderBottomLeftRadius: '12px',
+                  borderBottomRightRadius: '12px'
+                }}
+              >
                 <button 
                   className="btn btn-ghost" 
+                  style={{ padding: '10px 16px', borderRadius: '8px' }}
                   onClick={() => setRejectOpen(false)}
                 >
                   Cancel
                 </button>
                 <button 
                   className="btn btn-danger shadow-sm" 
+                  style={{ padding: '10px 16px', borderRadius: '8px' }}
                   onClick={() => handleAction("reject", { comment: rejectReason })}
                   disabled={loading || !rejectReason.trim()}
                 >
