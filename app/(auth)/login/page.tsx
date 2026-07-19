@@ -9,12 +9,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const USERS = [
-    { id: 'cm02abcd001', name: 'Alice', role: 'AUTHOR', color: '#2563EB', initials: 'A', email: 'alice@example.com' },
-    { id: 'cm02abcd002', name: 'Bob', role: 'REVIEWER', color: '#7C3AED', initials: 'B', email: 'bob@example.com' },
-    { id: 'cm02abcd003', name: 'Admin', role: 'ADMIN', color: '#DC2626', initials: 'AD', email: 'admin@example.com' },
-    { id: 'cm02abcd004', name: 'Viewer', role: 'VIEWER', color: '#059669', initials: 'V', email: 'viewer@example.com' },
-  ];
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,10 +34,7 @@ export default function LoginPage() {
     }
   };
 
-  const autofill = (uEmail: string) => {
-    setEmail(uEmail);
-    setPassword("password123");
-  };
+
 
   return (
     <div className="login-wrap">
@@ -88,31 +80,7 @@ export default function LoginPage() {
           </form>
         </div>
         
-        <div className="seed-label" style={{ marginTop: '32px' }}>Demo Credentials (Click to Autofill)</div>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {USERS.map(u => (
-            <div 
-              key={u.id} 
-              onClick={() => autofill(u.email)}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: '#fff', borderRadius: '8px', border: '1px solid var(--gray-200)', cursor: 'pointer', transition: 'border-color 0.2s' }}
-              className="hover:border-blue-500"
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: u.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700 }}>
-                  {u.initials}
-                </div>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--gray-900)' }}>{u.name}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--gray-500)' }}>{u.email}</div>
-                </div>
-              </div>
-              <span className="role-pill" style={{ background: `${u.color}1A`, color: u.color }}>
-                {u.role}
-              </span>
-            </div>
-          ))}
-        </div>
+
         
       </div>
     </div>
